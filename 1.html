@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>나를 소개하오</title>
+    <meta charset="utf-8">
+    <style>
+        h1{
+            text-align: center;
+            border-width:5px;
+            border-color:red;
+            border-style: solid;
+            padding: 20px;
+            margin: 20px;
+        }
+        a {
+            color:aqua;
+            text-decoration: overline;
+        }
+        .korea{
+            color:rgb(34, 162, 34);
+            text-decoration: none;
+        }
+        #공부하기{
+            color:blue;
+        }
+        div{
+            border: 5px,solid gray;
+            grid-template-columns:100px 1fr;
+            display: grid;
+        }
+    #gri{
+        border: 5px,solid pink;
+    }
+    @media
+    (max-width:500px){
+        #gri{
+
+            display:none;
+        }
+    }
+    </style>
+    <script>
+        document.write(1+1)
+    </script>
+</head>
+<body>
+    <h1>저는 주일현입니다.</h1>
+    <img src="arceus.jpeg" width="400">
+    <p>
+    해야하는것
+
+    </p>
+    <ol>
+        <li><a href="https://www.naver.com/" class="korea">게임하기</a></li>
+        <li><a href="https://www.naver.com/">책읽기</a></li>
+        <li><a href="https://www.naver.com/"class="korea"id="공부하기">공부하기</a></li>
+    </ol>
+    <div id="gri">
+        <div>대류 따가운</div>
+        <div>호자이</div>
+    </div>
+    <input type="button" value="button" onclick="alert('hi')">
+    <input type="text" onchange="alert('change')">
+    <input type="button" value="day" onclick="
+        if(document.querySelector('body').dataset.mode==='night'){
+            document.querySelector('body').style.backgroundColor='white';
+            document.querySelector('body').style.color='black';
+
+            document.querySelector('body').dataset.mode='day';
+            this.value='day';
+        }
+        else{
+            document.querySelector('body').style.backgroundColor='black';
+            document.querySelector('body').style.color='white';
+
+            document.querySelector('body').dataset.mode='night';
+            this.value='night';
+        }
+        ">
+</body>
+</html>
