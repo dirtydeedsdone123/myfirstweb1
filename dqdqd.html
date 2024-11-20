@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>번호표 발급</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        input {
+            padding: 8px;
+            font-size: 1em;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>대기 번호표 발급기</h1>
+    <button id="ticketButton" onclick="getTicketNumber()">번호표 발급</button>
+    <p id="ticketNumber">발급된 번호: <span id="number">0</span></p>
+    
+    <input type="password" id="adminPassword" placeholder="비밀번호 입력">
+    <button onclick="resetTicketNumber()">초기화</button>
+
+    <script>
+        // 초기 비밀번호 설정
+        if (!localStorage.getItem("adminPassword")) {
+            localStorage.setItem("adminPassword", "1004");
+        }
+
+        // 로컬 저장소에서 현재 번호 불러오기
+        let currentNumber = localStorage.getItem("currentNumber") 
+            ? parseInt(localStorage.getItem("currentNumber")) 
+            : 0;
+
+        // 화면에 초기 번호 표시
+        document.getElementById("number").innerText = currentNumber;
+
+        function getTicketNumber() {
+            const button = document.getElementById("ticketButton");
+            button.disabled = true;
+
+            // 번호 증가 및 화면 표시
+            currentNumber += 1;
+            document.getElementById("number").innerText = currentNumber;
+            localStorage.setItem("currentNumber", currentNumber);
+
+            // 3초 후 버튼 활성화
+            setTimeout(() => {
+                button.disabled = false;
+            }, 3000);
+        }
+
+        function resetTicketNumber() {
+            const passwordInput = document.getElementById("adminPassword").value;
+            const savedPassword = localStorage.getItem("adminPassword");
+
+            if (passwordInput === savedPassword) {
+                currentNumber = 0;
+                document.getElementById("number").innerText = currentNumber;
+                localStorage.setItem("currentNumber", currentNumber);
+
+                document.getElementById("adminPassword").value = '';
+                alert("번호가 초기화되었습니다.");
+            } else {
+                alert("비밀번호가 틀렸습니다.");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대기 번호 확인</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input {
+            padding: 8px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>대기 번호 화면</h1>
+    <p>현재 대기 번호: <span id="queueNumber">0</span></p>
+
+    <div id="loginPanel">
+        <input type="password" id="adminPasswords" placeholder="관리자 비밀번호 입력">
+        <button onclick="authenticate()">로그인</button>
+        <button onclick="resetQueue()">초기화</button>
+    </div>
+
+    <script>
+        // 초기 비밀번호 설정 (localStorage에 저장된 값이 없으면 1004 설정)
+        if (!localStorage.getItem("adminPasswords")) {
+            localStorage.setItem("adminPasswords", "1004");
+        }
+
+        // 로컬 저장소에서 대기 번호 불러오기
+        let queueNumber = localStorage.getItem("queueNumber") 
+            ? parseInt(localStorage.getItem("queueNumber")) 
+            : 0;
+
+        // 화면에 초기 대기 번호 표시
+        document.getElementById("queueNumber").innerText = queueNumber;
+
+        // 대기 번호 증가 (비밀번호 인증)
+        function authenticate() {
+            const inputPassword = document.getElementById("adminPasswords").value;
+            const savedPassword = localStorage.getItem("adminPasswords");
+
+            if (inputPassword === savedPassword) {
+                // 비밀번호 인증 성공: 대기 번호 증가
+                queueNumber += 1;
+                document.getElementById("queueNumber").innerText = queueNumber;
+                localStorage.setItem("queueNumber", queueNumber); // 로컬 저장소에 업데이트
+                document.getElementById("adminPasswords").value = ''; // 입력 필드 초기화
+            } else {
+                // 비밀번호 인증 실패
+                alert("비밀번호가 틀렸습니다.");
+            }
+        }
+
+        // 대기 번호 초기화
+        function resetQueue() {
+            const inputPassword = document.getElementById("adminPasswords").value;
+            const savedPassword = localStorage.getItem("adminPasswords");
+
+            if (inputPassword === savedPassword) {
+                // 비밀번호 인증 성공: 대기 번호 초기화
+                queueNumber = 0;
+                document.getElementById("queueNumber").innerText = queueNumber;
+                localStorage.setItem("queueNumber", queueNumber); // 로컬 저장소에 업데이트
+                document.getElementById("adminPasswords").value = ''; // 입력 필드 초기화
+                alert("번호가 초기화되었습니다.");
+            } else {
+                // 비밀번호 인증 실패
+                alert("비밀번호가 틀렸습니다.");
+            }
+        }
+    </script>
+</body>
+</html>
